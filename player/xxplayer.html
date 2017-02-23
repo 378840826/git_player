@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>music player</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <script src="jquery.js"></script>
+        <style media="screen">
+            #id-input-slider{
+                width: 100%;
+            }
+            #id-time-duration{
+                float: right;
+            }
+            #id-time-current{
+                float: left;
+            }
+            #id-input-slider{
+
+                background-color: #272728;
+                border-radius: 15px;
+                -webkit-appearance: none;
+                height:10px;
+            }
+            #id-h1-song-title{
+                text-align: center;
+            }
+            .playerButton {
+                display: block;
+                position: relative;
+                top: 20px;
+                display: inline-table;
+                text-align: center;
+                left: 12px;
+            }
+
+        </style>
+        <script type="text/javascript">
+        function log() {
+            console.log.apply(console,arguments)
+        }
+
+        function playerSetTime(value) {
+            var player=$("#id-audio-player")[0]
+            var time = player.duration*value/100
+            player.currentTime = time
+        }
+
+        function bindTimeSlider() {
+            $("#id-input-slider").on('change',function (e) {
+                var value = e.target.value
+                // console.log('value change',typeof value, value);
+                //根据百分比 设置player.currentime
+                playerSetTime(parseInt(value))
+            })
+        }
+        var nChar = function(char, n) {
+            var s = ''
+            for (var i = 0; i < n; i++) {
+                s += char
+            }
+            return s
+        }
+        var zfill = function(n, width) {
+            /*
+            n 是 int 类型
+            width 是 int 类型
+
+            把 n 的位数变成 width 这么长，并在右对齐，不足部分用 0 补足并返回
+            具体请看测试, 注意, 返回的是 string 类型
+
+            返回 string 类型
+            */
+            var s = String(n)
+            var len = s.length
+            return nChar('0', width - len) + s
+        }
+        function labelFromTime(time) {
+            var minutes = zfill(Math.floor(time/60),2)
+            var seconds = zfill(Math.floor(time%60),2)
+            return time =`${minutes}:${seconds}`
+        }
+
+        function bindAudioEvents() {
+            var player=$("#id-audio-player")
+            player.on('timeupdate',function(e){
+                var player = e.target
+                // console.log('target',player);
+                var value =player.currentTime/player.duration*100
+                // console.log("时间比值",value);
+                // 设置当前时间反映到时间条
+                $("#id-input-slider").val(value)
+                // 反映当前时间到time条目
+                var timeCurrent = player.currentTime
+                var timeleft = labelFromTime(timeCurrent)
+                $("#id-time-current").text(timeleft)
+                //反映歌曲时长到time条目
+                var timeSong = player.duration
+                var timeright = labelFromTime(timeSong)
+                $("#id-time-duration").text(timeright)
+
+            })
+            $("#id-audio-player").on('ended', function(e){
+                log('播放模式')
+                // 根据播放模式来播放下一首
+                var player=$("#id-audio-player")[0]
+                var mode = player.dataset.mode
+                    log('mode',mode)
+                if(mode=='single'){
+                    console.log('只听一次');
+                }else if (mode=='loop') {
+                    player.play()
+                }else if (mode=='allloop') {
+                    nextSong(0,0)
+                }else if (mode=='random') {
+                    nextSong(0,Math.floor(Math.random()*songsList.length))
+                }
+
+            })
+            $('#id-audio-player').on('canplay', function(e){
+                var player = e.target
+                log('can play', player.duration)
+                // var minutes = Math.floor(player.duration / 60)
+                // var seconds = Math.floor(player.duration % 60)
+                // var time = `${minutes}:${seconds}`
+                var time = labelFromTime(player.duration)
+                // 滑条归位， 时间重置
+                $('#id-input-slider').val(0)
+                $('#id-time-current').text('0:00')
+                $('#id-time-duration').text(time)
+            })
+
+        }
+        var  songsList = [
+            {id:'0',name:'0'},
+            {id:'1',name:'1'},
+            {id:'2',name:'2'},
+            {id:'3',name:'3'},
+            {id:'4',name:'4'},
+
+        ]
+        function insertSong(songsList) {
+            var s = ''
+            $(songsList).map(function(i,e){
+                // log(this.id)
+                var songi =`
+                <div>
+                    <li>
+                        <song id=musics/${this.id}.mp3 data-num=${i}>${this.name}</song>
+                    </li>
+                </div>
+                `
+                s += songi
+            })
+            // log('s',s)
+            $('.songs').append(s)
+            var song = songsList[0].name
+            $('#id-h1-song-title').text(song)
+
+        }
+
+        var bindSwitch = function() {
+            var player = $('#id-audio-player')[0]
+            // 点击切换歌曲
+            $('.songs-container').on('click',"song", function(e){
+                var self = $(e.target)
+                var songSrc = `musics/${self.text()}.mp3`
+                // console.log(typeof(song));
+                // log('click', song)
+                // 根据当前播放状态设置 autoplay
+                var song = self.text()
+                player.autoplay = !player.paused
+                // 切换歌曲
+                player.src = songSrc
+                // log('duration', player.duration)
+                // 设置当前歌曲名称
+                $('#id-h1-song-title').text(song)
+            })
+        }
+        function bindEventButton() {
+            $('.playerButtonAction').on('click','button',function (e) {
+                var button = e.target
+                var keyType = button.dataset.action
+                var actions = {
+                    prev: prevSong,
+                    next: nextSong,
+                    play: playSong,
+                    pause: pauseSong,
+                }
+                var action = actions[keyType]
+                var n = 0
+                action(button,n)
+            })
+
+            $('.playerButtonMode').on('click','button',function (e) {
+                var player = $('#id-audio-player')[0]
+                var type = player.dataset.mode
+                if(player.dataset.mode=='single'){
+                    player.dataset.mode = 'loop'
+                    log('mode',player.dataset.mode)
+                }
+                else if (player.dataset.mode=='loop') {
+                    player.dataset.mode = 'allloop'
+                    log('mode',player.dataset.mode)
+                }
+                else if (player.dataset.mode=='allloop'){
+                    player.dataset.mode = 'random'
+                    log('mode',player.dataset.mode)
+                }
+                else if (player.dataset.mode=='random') {
+                    player.dataset.mode = 'single'
+                    log('mode',player.dataset.mode)
+                }
+            })
+            $('.playerButtonMode2').on('click','button',function (e) {
+                var button = e.target
+                var type = button.dataset.mode
+                var player = $('#id-audio-player')[0]
+                 player.dataset.mode =  type
+                var key = player.dataset.mode
+
+
+            })
+
+
+        }
+
+        var pauseSong = function (button) {
+            // log('pause')
+            var player=$('#id-audio-player')[0]
+            player.pause()
+            button.dataset.action='play'
+            button.innerText="||"
+
+        }
+        function prevSong() {
+            var player = $('#id-audio-player')[0]
+            var index = player.dataset.num
+            var indexprev=Number(index)-1
+            if ( indexprev ==-1 ) {
+                indexprev = songsList.length-1
+            }
+
+            var songprev = songsList[indexprev]
+            var name=songsList[indexprev].name
+            $('#id-h1-song-title').text(name)
+
+            var songprevSrc = `musics/${songprev.id}.mp3`
+
+
+            player.src = songprevSrc
+            player.dataset.num = indexprev
+            console.log('player.src',player.src);
+
+
+        }
+        function nextSong(button,n=0) {
+            var player = $('#id-audio-player')[0]
+            var index = player.dataset.num
+            if (player.dataset.mode=='random') {
+                var n = Math.floor(Math.random()*songsList.length)
+            }
+            var num = (Number(index)+1+n)%songsList.length
+            log(num)
+            indexnext = num
+
+            var songnext = songsList[indexnext]
+            log(songnext)
+            var name = songnext.name
+            $('#id-h1-song-title').text(name)
+            var songnextSrc = `musics/${songnext.id}.mp3`
+            player.src = songnextSrc
+            player.dataset.num = indexnext
+            console.log('player.src',player.src);
+
+        }
+        function playSong(button) {
+            // log('play')
+            var player=$('#id-audio-player')[0]
+            player.play()
+            button.dataset.action='pause'
+            button.innerText='o'
+
+        }
+
+        function bindEvents() {
+            bindTimeSlider()
+            bindAudioEvents()
+            bindSwitch()
+            // bindSongChange()
+            bindEventButton()
+
+        }
+
+        function __main() {
+            bindEvents()
+            insertSong(songsList)
+
+        }
+
+        $(document).ready(function () {
+            __main()
+        })
+
+
+
+        </script>
+    </head>
+    <body>
+        <audio id="id-audio-player" autoplay  data-num=0 data-mode=single src="musics/0.mp3">
+            <!-- <source class=songSrc src="musics/0.mp3"> -->
+                <!-- <source src="musics/1.mp3">
+                    <source src="musics/2.mp3">
+                        <source src="musics/3.mp3">
+                            <source src="musics/4.mp3"> -->
+        </audio>
+        <h1 id=id-h1-song-title></h1>
+        <div class="player-controls">
+            <div class="playerslider">
+                <input id=id-input-slider type="range" name="name" value="0" min=0 max=100 >
+            </div>
+            <div class="playerTime">
+                <time id=id-time-current class="left">00:00</time>
+                <time id=id-time-duration class="right">01:23</time>
+            </div>
+            <div class="playerButton">
+                <div class="playerButtonMode">
+                    <button type="button" name="button" data-mode=single>模式</button>
+                </div>
+                <div class="playerButtonAction">
+                    <button id=prevButton data-action=prev type="button" name="button"><<</button>
+                    <button id=playpaused data-action=pause type="button" name="button">play</button>
+                    <button id=nextButton data-action=next type="button" name="button">>></button>
+                </div>
+            </div>
+
+        </div>
+        <div class="songs-container">
+            <ul class="songs">
+            </ul>
+        </div>
+
+
+
+    </body>
+</html>
