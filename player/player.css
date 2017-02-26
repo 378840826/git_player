@@ -1,0 +1,79 @@
+.all {
+    position: absolute;
+    width: 640px;
+    height: 1136px;
+}
+
+
+.button-controls {
+    display: block;
+    position: absolute;
+    bottom: 50px;
+}
+
+.title {
+    position: absolute;
+    width: 100%;
+    top: 0px;
+}
+
+.back {
+    position: absolute;
+    left: 0px;
+}
+
+.meum {
+    position: absolute;
+    right: 0px;
+}
+
+.music-name {
+
+    font-size: 2.5em;
+    color: #ffffff;
+    display: inline-block;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 0.35em;
+}
+
+#progress {
+    position: absolute;
+    bottom: 250px;
+    font-size: 1.5em;
+    color: #ffffff;
+}
+
+#current {
+    position: absolute;
+    left: 80px;
+}
+
+#duration {
+    position: absolute;
+    left: 520px;
+}
+
+.button-replay {
+    margin-right: -20px;
+}
+
+.button-random {
+    margin-left: -20px;
+}
+
+.background-image {
+
+}
+
+.button-play {
+
+}
+
+.button-pause {
+    display: inline-block;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}

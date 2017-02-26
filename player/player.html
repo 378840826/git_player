@@ -3,21 +3,38 @@
     <head>
         <meta charset="utf-8">
         <title>WEB音乐播放器</title>
+        <link rel="stylesheet" href="player.css">
         <script src='http://cdn.bootcss.com/jquery/3.1.1/jquery.js'></script>
     </head>
     <body>
-        <button class="button-play">play</button>
-        <button class="button-last" type="button">last</button>
-        <button class="button-next" type="button">next</button>
-        <input id='id-audio-player-volume' type="range" value="100">
-        <progress value='0' class='timeProgress' max="100"></progress>
-        <div id="progress">
-            <span id="current">00</span>
-            <span id="duration">00</span>
+        <div class="all">
+            <img class="background-image" src="icon/底图.png" alt="底图" />
+            <div class="music-list-content">
+                <span class="list">播放列表</span>
+                <ul class="music-list"></ul>
+            </div>
+            <div class="title">
+                <img class="back" src="icon/返回.png" alt="返回" />
+                <span class="music-name">歌曲名</span>
+                <img class="meum" src="icon/菜单.png" alt="菜单" />
+            </div>
+            <div class="button-controls">
+                <img class="button-replay" src="icon/重播.png" alt="重播" />
+                <img class="button-last" src="icon/上一首.png" alt="上一首" />
+                <img class="button-play" src="icon/播放.png" alt="播放" />
+                <img class="button-next" src="icon/下一首.png" alt="下一首" />
+                <img class="button-random" src="icon/随机.png" alt="随机" />
+            </div>
+            <input id='id-audio-player-volume' type="range" value="100">
+            <progress value='0' class='timeProgress' max="100"></progress>
+            <div id="progress">
+                <span id="current">00:00</span>
+                <span id="duration">00:00</span>
+            </div>
+            <audio id='id-audio-player' autoplay="">
+                <source class='playing' data-id='0' src="music/故乡.mp3">
+            </audio>
         </div>
-        <audio id='id-audio-player' autoplay>
-            <source class='playing' data-id='0' src="music/故乡.mp3">
-        </audio>
         <script src=player.js></script>
     </body>
 </html>
