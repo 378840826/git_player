@@ -9,7 +9,8 @@
 7，非第一首时，自动播放下一首（还没做）
 8，进度条（还没做）
 9，歌曲名自动替换
-10，点击菜单图标展开歌曲列表
+10，点击菜单图标展开歌曲列表（不做了）
+11，歌手图片，自动替换，旋转
 */
 
 
@@ -109,6 +110,15 @@ var volume = function() {
     var value = $('#id-audio-player-volume')[0].value/100
     //log(value)
     $('#id-audio-player')[0].volume = value
+}
+
+//自定义音量滑条已填充的背景
+var volumeBg = function() {
+    var bg = $('.volume-bg')
+    var vol = $('#id-audio-player-volume')
+    var val = vol.val()
+    var value = val/100*400
+    bg.css('width',value)
 }
 
 
@@ -242,6 +252,8 @@ var __mian = function() {
     $('#id-audio-player').on("timeupdate",progressTime)
     //调节音量滑条时，改变音量
     $('#id-audio-player-volume').on('change',volume)
+    //调节音量时改变滑条颜色
+    $('#id-audio-player-volume').on('input propertychange',volumeBg)
     //下一首按钮
     $('.button-next').on('click', nextSongButton)
     //上一首按钮

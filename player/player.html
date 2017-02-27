@@ -9,14 +9,17 @@
     <body>
         <div class="all">
             <img class="background-image" src="icon/底图.png" alt="底图" />
-            <div class="music-list-content">
+            <!-- <div class="music-list-content">
                 <span class="list">播放列表</span>
                 <ul class="music-list"></ul>
-            </div>
+            </div> -->
             <div class="title">
                 <img class="back" src="icon/返回.png" alt="返回" />
                 <span class="music-name">歌曲名</span>
                 <img class="meum" src="icon/菜单.png" alt="菜单" />
+            </div>
+            <div class="singer">
+                <img src="icon/歌手图.png" alt="歌手图" />
             </div>
             <div class="button-controls">
                 <img class="button-replay" src="icon/重播.png" alt="重播" />
@@ -25,7 +28,9 @@
                 <img class="button-next" src="icon/下一首.png" alt="下一首" />
                 <img class="button-random" src="icon/随机.png" alt="随机" />
             </div>
+            <img class="volume-img" src="icon/音量-.png" alt="音量" />
             <input id='id-audio-player-volume' type="range" value="100">
+            <div class="volume-bg"></div>
             <progress value='0' class='timeProgress' max="100"></progress>
             <div id="progress">
                 <span id="current">00:00</span>

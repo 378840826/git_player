@@ -17,6 +17,65 @@
     top: 0px;
 }
 
+.singer {
+    position: absolute;
+    top: 15%;
+}
+/*隐藏原有的*/
+#id-audio-player-volume {
+    -webkit-appearance: none;
+    width: 400px;
+    border-radius: 10px; /*这个属性设置使填充进度条时的图形为圆角*/
+    position: absolute;
+    top: 119px;
+    left: 19%;
+    background: #a6a6a6;
+}
+#id-audio-player-volume::-webkit-slider-thumb {
+    -webkit-appearance: none;
+}
+/*设置轨道样式*/
+#id-audio-player-volume::-webkit-slider-runnable-track {
+    height: 5px;
+    border-radius: 2px; /*将轨道设为圆角的*/
+    box-shadow: 0 1px 1px 1px #000; /*轨道内置阴影效果*/
+    z-index: 10;
+}
+/*取消获得焦点时的轮廓线*/
+#id-audio-player-volume:focus {
+    outline: none;
+}
+/*设置滑块的样式*/
+#id-audio-player-volume::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 20px;
+    width: 20px;
+    margin-top: -7px; /*使滑块超出轨道部分的偏移量相等*/
+    background: #ffffff;
+    border-radius: 50%; /*外观设置为圆形*/
+    border: solid 0.125em rgba(205, 224, 230, 0.5); /*设置边框*/
+    box-shadow: 0 .125em .125em #3b4547; /*添加底部阴影*/
+    position: relative;
+    z-index: 10;
+}
+
+
+.volume-bg {
+    background-color: red;
+    width: 400px;
+    height: 4px;
+    position: absolute;
+    top: 122px;
+    left: 19%;
+}
+
+.volume-img {
+    display: inline-block;
+    position: absolute;
+    top: 90px;
+    left: 55px;
+}
+
 .back {
     position: absolute;
     left: 0px;
