@@ -6,11 +6,11 @@
 4，音量滑条
 5，下一曲，通过切换 src
 6，上一曲
-7，非第一首时，自动播放下一首（还没做）
-8，进度条（还没做）
+7，非第一首时，自动播放下一首（还没做）（已经看不懂需求了）
+8，进度条
 9，歌曲名自动替换
 10，点击菜单图标展开歌曲列表（不做了）
-11，歌手图片，自动替换，旋转
+11，歌手图片，旋转,自动替换（切换src）
 */
 
 
@@ -28,6 +28,15 @@ var songBook = {
     2:'music/Im Yours.mp3',
     sl:3,
 }
+//歌手库
+var imgBook = {
+    0:'singer/许巍.jpg',
+    1:'singer/押尾.jpg',
+    2:'singer/Jason Mraz.jpg',
+    sl:3,
+}
+
+
 
 
 //播放/暂停
@@ -38,10 +47,13 @@ var toggle = function() {
         //根据播放状态
         if (a[0].paused) {
             a[0].play()
+            //旋转歌手图
+            runningRotateImg()
             //切换图标
             playButton.attr('src',"icon/暂停.png")
         }else {
             a[0].pause()
+            pausedRotateImg()
             playButton.attr('src',"icon/播放.png")
         }
     })
@@ -130,7 +142,7 @@ var nextSongButton = function() {
     var newId = (id + 1) % songBook.sl
     playing[0].dataset.id = newId
     playing.attr('src',songBook[newId])
-    $('#id-audio-player')[0].load()
+    //$('#id-audio-player')[0].load()
     //检查是否为播放状态，替换播放图标
     var a = $('#id-audio-player')
     var playButton = $('.button-play')
@@ -139,6 +151,22 @@ var nextSongButton = function() {
     }else {
         playButton.attr('src',"icon/暂停.png")
     }
+    //歌手图片旋转控制
+    //根据播放状态
+    if (a[0].paused) {
+        //旋转歌手图
+        runningRotateImg()
+    }else {
+        pausedRotateImg()
+    }
+
+    //替换歌手图标
+    var singerimg = $('.singer-img')
+    var imgid = singerimg[0].dataset.imgid
+    var newImgId = (imgid + 1) % imgBook.sl
+    singerimg[0].dataset.imgid = newImgId
+    singerimg.attr('src',imgBook[newImgId])
+    $('#id-audio-player')[0].load()
 }
 
 
@@ -159,11 +187,19 @@ var lastSongButton = function() {
     }else {
         playButton.attr('src',"icon/暂停.png")
     }
+
+    //替换歌手图标
+    var singerimg = $('.singer-img')
+    var imgid = singerimg[0].dataset.imgid
+    var newImgId = ((imgid-1) + imgBook.sl) % imgBook.sl
+    singerimg[0].dataset.imgid = newImgId
+    singerimg.attr('src',imgBook[newImgId])
+    $('#id-audio-player')[0].load()
 }
 
 
 
-//进度条(自定义进度条未做。。。。。。。。。。。。。。。。。。。。。。。。。)
+//进度条
 //获取进度百分比
 var getProgressBarValue = function() {
     var time = $('#id-audio-player')[0].duration
@@ -175,11 +211,46 @@ var getProgressBarValue = function() {
     //log('t is',typeof(t))
     return t
 }
-//设置进度条
-var setprogressBar = function() {
-    var progress = $('.timeProgress')
-    progress.attr('value', getProgressBarValue())
+
+//设置自定义进度条
+var progressBg = function() {
+    //进度条红色背景
+    var input = $('#id-time-progress')
+    input.attr('value', getProgressBarValue())
+    var bg = $('.progress-bg')
+    bg.css('width',getProgressBarValue()/100*350)
+
+    //进度点点
+    var player = $('#id-audio-player')[0]
+    var value = player.currentTime / player.duration
+    var v = value * 350
+    var img = $('.progress-img')
+    img.css('margin-left', v)
 }
+
+
+//监听进度条点击，绑定歌曲进度
+var bindProcess = function() {
+    $('#id-time-progress').on('input', function(e){
+        var target = $(e.target)
+        var sWidth = target.css('width')
+        //log(target,sWidth)
+        var sLen = parseInt(sWidth)
+        // console.log(sLen);
+        var max = target.attr('max')
+        var divLen = sLen * (target.val() / max)
+        //console.log('divLen', divLen)
+        $('.progress-bg').css('width', divLen)
+        $('.progress-img').css('margin-left', divLen)
+        //设置歌曲进度
+        var processIng = divLen / sLen
+        // console.log("processIng",processIng);
+        var player = $('#id-audio-player')[0]
+        player.currentTime = player.duration * processIng
+    })
+}
+
+
 
 
 
@@ -234,16 +305,31 @@ var autoPlayPatch = function() {
     }
 }
 
-
-
-
+//开始旋转歌手图
+var runningRotateImg = function() {
+    var img = $('.singer-img')[0]
+    img.style.animationPlayState = 'running'
+}
+//暂停旋转歌手图
+var pausedRotateImg = function() {
+    var img = $('.singer-img')[0]
+    img.style.animationPlayState = 'paused'
+}
+//根据播放状态切换旋转状态
+var rotateState = function() {
+    var a = $('#id-audio-player')
+    if (a[0].paused) {
+        //暂停歌手图
+        pausedRotateImg()
+    }else {
+        runningRotateImg()
+    }
+}
 
 var __mian = function() {
     // log('mian')
     toggle()
     //添加时间监听
-    //进度条自动跟进
-    $('#id-audio-player').on("timeupdate",setprogressBar)
     //音频加载完成时，获取总时长
     $('#id-audio-player').on("loadedmetadata",time)
     //替换显示为当前歌曲名
@@ -251,7 +337,7 @@ var __mian = function() {
     //播放时，获取当前时间
     $('#id-audio-player').on("timeupdate",progressTime)
     //调节音量滑条时，改变音量
-    $('#id-audio-player-volume').on('change',volume)
+    $('#id-audio-player-volume').on('input propertychange',volume)
     //调节音量时改变滑条颜色
     $('#id-audio-player-volume').on('input propertychange',volumeBg)
     //下一首按钮
@@ -264,6 +350,14 @@ var __mian = function() {
     getMusicList()
     //设置自动播放时的图标问题
     $('#id-audio-player').on("loadedmetadata",autoPlayPatch)
+    //自定义进度条跟进
+    $('#id-audio-player').on("timeupdate",progressBg)
+    //进度条绑定歌曲进度
+    bindProcess()
+    //载入或切换歌曲后检查播放状态改变歌手图旋转状态(事件需要处理时间的小bug)
+    $('#id-audio-player').on("loadedmetadata",rotateState)
+    $('#id-audio-player').on("canplay",rotateState)
+
 }
 
 __mian()

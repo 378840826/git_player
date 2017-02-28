@@ -19,7 +19,8 @@
                 <img class="meum" src="icon/菜单.png" alt="菜单" />
             </div>
             <div class="singer">
-                <img src="icon/歌手图.png" alt="歌手图" />
+                <img src="icon/圈圈.png" alt="歌手圈圈" />
+                <img class="singer-img" data-imgid='0' src="singer/许巍.jpg" alt="歌手图" />
             </div>
             <div class="button-controls">
                 <img class="button-replay" src="icon/重播.png" alt="重播" />
@@ -28,12 +29,20 @@
                 <img class="button-next" src="icon/下一首.png" alt="下一首" />
                 <img class="button-random" src="icon/随机.png" alt="随机" />
             </div>
-            <img class="volume-img" src="icon/音量-.png" alt="音量" />
+            <img class="volume-img" src="icon/音量-.png" alt="音量-" />
             <input id='id-audio-player-volume' type="range" value="100">
+            <img class="volume-img-big" src="icon/音量+.png" alt="音量+" />
             <div class="volume-bg"></div>
-            <progress value='0' class='timeProgress' max="100"></progress>
+            <div class="void">
+                <img src="icon/收藏1.png" alt="收藏" />
+                <img src="icon/下载.png" alt="下载" />
+                <img src="icon/分享.png" alt="分享" />
+            </div>
             <div id="progress">
                 <span id="current">00:00</span>
+                <input id='id-time-progress' type="range" max=100 min=0 value=0>
+                <img class="progress-img" src="icon/音乐播放条点点.png" alt="进度圆点" />
+                <div class="progress-bg"></div>
                 <span id="duration">00:00</span>
             </div>
             <audio id='id-audio-player' autoplay="">

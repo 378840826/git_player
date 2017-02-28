@@ -21,6 +21,33 @@
     position: absolute;
     top: 15%;
 }
+
+.singer-img {
+    border-radius: 160px;
+    width: 320px;
+    height: 320px;
+    position: absolute;
+    top: 79px;
+    left: 160px;
+}
+
+/*歌手图动画*/
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+.singer-img {
+    animation: 15s rotate infinite linear;
+    animation-play-state: paused;
+}
+
+
+
+/*音量条*/
 /*隐藏原有的*/
 #id-audio-player-volume {
     -webkit-appearance: none;
@@ -29,7 +56,7 @@
     position: absolute;
     top: 119px;
     left: 19%;
-    background: #a6a6a6;
+    background: gray;
 }
 #id-audio-player-volume::-webkit-slider-thumb {
     -webkit-appearance: none;
@@ -38,7 +65,6 @@
 #id-audio-player-volume::-webkit-slider-runnable-track {
     height: 5px;
     border-radius: 2px; /*将轨道设为圆角的*/
-    box-shadow: 0 1px 1px 1px #000; /*轨道内置阴影效果*/
     z-index: 10;
 }
 /*取消获得焦点时的轮廓线*/
@@ -60,8 +86,53 @@
 }
 
 
+/*进度条*/
+#id-time-progress {
+    -webkit-appearance: none;
+    width: 350px;
+    border-radius: 10px; /*这个属性设置使填充进度条时的图形为圆角*/
+    position: absolute;
+    top: 13px;
+    left: 24%;
+    background: gray;
+}
+#id-time-progress::-webkit-slider-thumb {
+    -webkit-appearance: none;
+}
+/*设置轨道样式*/
+#id-time-progress::-webkit-slider-runnable-track {
+    height: 5px;
+    border-radius: 2px; /*将轨道设为圆角的*/
+    z-index: 10;
+}
+/*取消获得焦点时的轮廓线*/
+#id-time-progress:focus {
+    outline: none;
+}
+/*设置滑块的样式*/
+#id-time-progress::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 0px;
+    width: 0px;
+    margin-top: -7px; /*使滑块超出轨道部分的偏移量相等*/
+    background: #ffffff;
+    border-radius: 50%; /*外观设置为圆形*/
+    position: relative;
+    z-index: 10;
+}
+
+
+.progress-bg {
+    background-color: #fff;
+    width: 350px;
+    height: 4px;
+    position: absolute;
+    top: 15px;
+    left: 24%;
+}
+
 .volume-bg {
-    background-color: red;
+    background-color: #ccc;
     width: 400px;
     height: 4px;
     position: absolute;
@@ -75,6 +146,20 @@
     top: 90px;
     left: 55px;
 }
+.volume-img-big {
+    display: inline-block;
+    position: absolute;
+    top: 90px;
+    left: 520px;
+}
+
+.progress-img {
+    display: inline-block;
+    position: absolute;
+    left: 116px;
+    margin-left: 0px;
+    top: -16px;
+}
 
 .back {
     position: absolute;
@@ -87,7 +172,6 @@
 }
 
 .music-name {
-
     font-size: 2.5em;
     color: #ffffff;
     display: inline-block;
@@ -95,23 +179,42 @@
     left: 50%;
     transform: translateX(-50%);
     top: 0.35em;
+    font-family: Georgia;
+    font-weight:100;
+}
+
+.void {
+    position: absolute;
+    top: 670px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.void img {
+    margin: 0px;
+    width: 100px;
+    height: 100px;
 }
 
 #progress {
     position: absolute;
-    bottom: 250px;
+    bottom: 290px;
     font-size: 1.5em;
-    color: #ffffff;
+    color: #cfcfcf;
+    width: 640px;
+    font-family: Arial;
 }
 
 #current {
     position: absolute;
     left: 80px;
+    top: 4px;
 }
 
 #duration {
     position: absolute;
     left: 520px;
+    top: 4px;
 }
 
 .button-replay {
