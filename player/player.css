@@ -1,34 +1,104 @@
+/*消除页面间隙*/
+body {
+    margin: 0;
+}
+
+/*全部*/
 .all {
     position: absolute;
-    width: 640px;
-    height: 1136px;
+    width: 100%;
+    height: 100%;
 }
 
-
-.button-controls {
+/*播放列表*/
+.music-list-content {
+    position: fixed;
+    z-index: 1;
+    width: 100%;
+    top: 100%;
+    bottom: 0;
+    font-size: 3em;
+    background-color: #f7f7f7;
+    text-align: center;
+}
+/*列表弹出动画*/
+.music-list-content {
+    transition: 0.5s;
+}
+.list {
+    line-height: 2.5em;
+}
+.music-list-content > ul > li {
     display: block;
+    border-top: 1px solid #d0cece;
+    width: 100%;
+}
+.music-list-content > ul {
+    width: 100%;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    line-height: 2.3em;
+    font-size: 0.9em;
+    left: 3%;
     position: absolute;
-    bottom: 50px;
+    color: #404040;
 }
 
+/*背景图*/
+.background-image {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+/*首行*/
 .title {
     position: absolute;
     width: 100%;
     top: 0px;
 }
 
+/*返回 图标和 菜单 图标*/
+.title > img {
+    width: 17%;
+}
+
+/*歌曲名*/
+.music-name {
+    font-size: 4em;
+    color: #ffffff;
+    display: inline-block;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 0.35em;
+    font-family: Georgia;
+    font-weight:100;
+}
+
+/*歌手图div*/
 .singer {
     position: absolute;
     top: 15%;
+    width: 100%;
 }
 
+/*歌手图圈圈*/
+.torus {
+    width: 100%;
+}
+
+/*歌手图*/
 .singer-img {
-    border-radius: 160px;
-    width: 320px;
-    height: 320px;
+    border-radius: 50%;
+    width: 52.8%;
+    height: 70%;
     position: absolute;
-    top: 79px;
-    left: 160px;
+    display: block;
+    top: 14.6%;
+    left: 23.6%;
 }
 
 /*歌手图动画*/
@@ -54,8 +124,8 @@
     width: 400px;
     border-radius: 10px; /*这个属性设置使填充进度条时的图形为圆角*/
     position: absolute;
-    top: 119px;
-    left: 19%;
+    left: 28%;
+    top: 45%;
     background: gray;
 }
 #id-audio-player-volume::-webkit-slider-thumb {
@@ -89,11 +159,11 @@
 /*进度条*/
 #id-time-progress {
     -webkit-appearance: none;
-    width: 350px;
+    width: 450px;
     border-radius: 10px; /*这个属性设置使填充进度条时的图形为圆角*/
     position: absolute;
-    top: 13px;
-    left: 24%;
+    top: 30%;
+    left: 25%;
     background: gray;
 }
 #id-time-progress::-webkit-slider-thumb {
@@ -124,41 +194,47 @@
 
 .progress-bg {
     background-color: #fff;
-    width: 350px;
+    width: 450px;
     height: 4px;
     position: absolute;
-    top: 15px;
-    left: 24%;
+    top: 33%;
+    left: 25%;
 }
 
+/*音量div*/
+.volume {
+    position: absolute;
+    width: 100%;
+    height: 4%;
+    top: 10%;
+}
 .volume-bg {
     background-color: #ccc;
     width: 400px;
     height: 4px;
     position: absolute;
-    top: 122px;
-    left: 19%;
+    left: 28%;
+    top: 45%;
 }
 
 .volume-img {
     display: inline-block;
     position: absolute;
-    top: 90px;
-    left: 55px;
+    left: 22%;
 }
 .volume-img-big {
     display: inline-block;
     position: absolute;
-    top: 90px;
-    left: 520px;
+    left: 70%;
 }
 
 .progress-img {
     display: inline-block;
     position: absolute;
-    left: 116px;
+    width: 10%;
+    left: 18.5%;
     margin-left: 0px;
-    top: -16px;
+    top: -28%;
 }
 
 .back {
@@ -171,50 +247,41 @@
     right: 0px;
 }
 
-.music-name {
-    font-size: 2.5em;
-    color: #ffffff;
-    display: inline-block;
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
-    top: 0.35em;
-    font-family: Georgia;
-    font-weight:100;
-}
-
+/*红心分享下载图标*/
 .void {
     position: absolute;
-    top: 670px;
+    top: 60%;
     left: 50%;
     transform: translateX(-50%);
+    width: 50%;
+}
+.void > img {
+    width: 32%;
 }
 
-.void img {
-    margin: 0px;
-    width: 100px;
-    height: 100px;
-}
-
+/*进度条div*/
 #progress {
     position: absolute;
-    bottom: 290px;
-    font-size: 1.5em;
+    bottom: 18%;
+    font-size: 2.5em;
     color: #cfcfcf;
-    width: 640px;
+    width: 100%;
+    height: 5%;
     font-family: Arial;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 #current {
     position: absolute;
-    left: 80px;
-    top: 4px;
+    left: 11%;
+    top: 10%;
 }
 
 #duration {
     position: absolute;
-    left: 520px;
-    top: 4px;
+    left: 75%;
+    top: 10%;
 }
 
 .button-replay {
@@ -225,13 +292,16 @@
     margin-left: -20px;
 }
 
-.background-image {
-
+/*歌曲操作按钮*/
+.button-controls {
+    position: absolute;
+    bottom: 1%;
+    width: 100%;
+}
+.button-controls > img {
+    width: 20%;
 }
 
-.button-play {
-
-}
 
 .button-pause {
     display: inline-block;

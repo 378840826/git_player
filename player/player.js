@@ -6,7 +6,7 @@
 4，音量滑条
 5，下一曲，通过切换 src
 6，上一曲
-7，非第一首时，自动播放下一首（还没做）（已经看不懂需求了）
+7，非第一首时，自动播放下一首
 8，进度条
 9，歌曲名自动替换
 10，点击菜单图标展开歌曲列表（不做了）
@@ -218,12 +218,12 @@ var progressBg = function() {
     var input = $('#id-time-progress')
     input.attr('value', getProgressBarValue())
     var bg = $('.progress-bg')
-    bg.css('width',getProgressBarValue()/100*350)
+    bg.css('width',getProgressBarValue()/100*450)
 
     //进度点点
     var player = $('#id-audio-player')[0]
     var value = player.currentTime / player.duration
-    var v = value * 350
+    var v = value * 450
     var img = $('.progress-img')
     img.css('margin-left', v)
 }
@@ -291,6 +291,19 @@ var getMusicList = function() {
         musicList.append(name)
     }
 }
+
+
+
+//点击展开歌曲列表
+$('.meum').click(function() {
+    log('click')
+    var list = $('.music-list-content')[0]
+    if (list.style.top == '100%') {
+        list.style.top = '74%'
+    } else {
+        list.style.top = '100%'
+    }
+})
 
 
 

@@ -2,26 +2,32 @@
 <html>
     <head>
         <meta charset="utf-8">
+        <meta name="viewport" content="user-scalable=0">
         <title>WEB音乐播放器</title>
         <link rel="stylesheet" href="player.css">
         <script src='http://cdn.bootcss.com/jquery/3.1.1/jquery.js'></script>
     </head>
     <body>
         <div class="all">
-            <img class="background-image" src="icon/底图.png" alt="底图" />
-            <!-- <div class="music-list-content">
+            <!-- 播放列表 -->
+            <div class="music-list-content" style="top: 100%;">
                 <span class="list">播放列表</span>
                 <ul class="music-list"></ul>
-            </div> -->
+            </div>
+            <!-- 底图 -->
+            <img class="background-image" src="icon/底图.png" alt="底图" />
+            <!-- 头行 -->
             <div class="title">
                 <img class="back" src="icon/返回.png" alt="返回" />
                 <span class="music-name">歌曲名</span>
                 <img class="meum" src="icon/菜单.png" alt="菜单" />
             </div>
+            <!-- 歌手图区 -->
             <div class="singer">
-                <img src="icon/圈圈.png" alt="歌手圈圈" />
+                <img class='torus' src="icon/圈圈.png" alt="歌手圈圈" />
                 <img class="singer-img" data-imgid='0' src="singer/许巍.jpg" alt="歌手图" />
             </div>
+            <!-- 操作按钮 -->
             <div class="button-controls">
                 <img class="button-replay" src="icon/重播.png" alt="重播" />
                 <img class="button-last" src="icon/上一首.png" alt="上一首" />
@@ -29,15 +35,19 @@
                 <img class="button-next" src="icon/下一首.png" alt="下一首" />
                 <img class="button-random" src="icon/随机.png" alt="随机" />
             </div>
-            <img class="volume-img" src="icon/音量-.png" alt="音量-" />
-            <input id='id-audio-player-volume' type="range" value="100">
-            <img class="volume-img-big" src="icon/音量+.png" alt="音量+" />
-            <div class="volume-bg"></div>
+            <!-- 音量 -->
+            <div class="volume">
+                <img class="volume-img" src="icon/音量-.png" alt="音量-" />
+                <input id='id-audio-player-volume' type="range" value="100">
+                <img class="volume-img-big" src="icon/音量+.png" alt="音量+" />
+                <div class="volume-bg"></div>
+            </div>
             <div class="void">
                 <img src="icon/收藏1.png" alt="收藏" />
                 <img src="icon/下载.png" alt="下载" />
                 <img src="icon/分享.png" alt="分享" />
             </div>
+            <!-- 进度条 -->
             <div id="progress">
                 <span id="current">00:00</span>
                 <input id='id-time-progress' type="range" max=100 min=0 value=0>
@@ -45,7 +55,7 @@
                 <div class="progress-bg"></div>
                 <span id="duration">00:00</span>
             </div>
-            <audio id='id-audio-player' autoplay="">
+            <audio id='id-audio-player'>
                 <source class='playing' data-id='0' src="music/故乡.mp3">
             </audio>
         </div>
